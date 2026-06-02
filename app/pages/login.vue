@@ -15,6 +15,8 @@ const credentials = reactive({
   password: "",
 });
 
+const loading = ref<boolean>(false);
+
 // Login function
 const login = async () => {
   // Check the userName length
@@ -28,16 +30,21 @@ const login = async () => {
     return;
   }
   try {
-    await $fetch("/api/login", {
+    loading.value = true;
+    const res = await $fetch("/api/login", {
       method: "POST",
       body: credentials,
     });
 
-    // Refresh the session on client-side and redirect to the home page
-    await refreshSession();
-    await navigateTo("/");
+    if (res.status === 200 || res.status === 304) {
+      // Refresh the session on client-side and redirect to the home page
+      await refreshSession();
+      await navigateTo("/");
+    }
   } catch (error: any) {
     alert(error.response._data.message);
+  } finally {
+    loading.value = false;
   }
 };
 </script>
@@ -64,7 +71,7 @@ const login = async () => {
         class="px-5 py-1 rounded bg-zinc-200 text-zinc-black hover:bg-zinc-200/70 dark:bg-zinc-900 dark:text-white dark:hover:bg-zinc-900/70 transition-colors ease-in-out duration-200 cursor-pointer"
         type="submit"
       >
-        Login
+        {{ loading ? "Loading..." : "Login" }}
       </button>
     </form>
     <p>

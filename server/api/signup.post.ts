@@ -23,15 +23,35 @@ export default defineEventHandler(async (event) => {
     });
 
     // Check if the user already exists
+    const user = await prisma.user.findUnique({
+      where: {
+        userName: userName,
+      },
+    });
+
+    if (user) {
+      throw createError({
+        status: 409,
+        message: "User already exists",
+      });
+    }
+    const hashedPassword = await hashPassword(password);
 
     // Create the user
+    const createUser = await prisma.user.create({
+      data: {
+        userName: userName,
+        password: hashedPassword,
+        role: Role.USER,
+      },
+    });
 
     // Set the user info into the session
     await setUserSession(event, {
       user: {
-        id: (Math.random() * 100).toString(),
-        userName: userName,
-        role: Role.USER,
+        id: createUser?.id,
+        userName: createUser?.userName,
+        role: createUser?.role as Role,
       },
     });
 

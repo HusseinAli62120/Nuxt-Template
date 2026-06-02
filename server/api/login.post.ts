@@ -23,14 +23,33 @@ export default defineEventHandler(async (event) => {
       return result.data;
     });
 
-    // Query the database to get the user info
+    // Check if the user actually exists
+    const user = await prisma.user.findUnique({
+      where: { userName: userName },
+    });
+
+    if (!user) {
+      throw createError({
+        status: 404,
+        message: "User not found",
+      });
+    }
+
+    // Check if the password is correct
+    const isPasswordValid = await verifyPassword(user.password, password);
+    if (!isPasswordValid) {
+      throw createError({
+        status: 401,
+        message: "Incorrect username or password",
+      });
+    }
 
     // Set the user session to the data fetched from the db.
     await setUserSession(event, {
       user: {
-        id: (Math.random() * 100).toString(),
-        userName: userName,
-        role: Role.USER,
+        id: user?.id,
+        userName: user?.userName,
+        role: user?.role as Role,
       },
     });
     return {

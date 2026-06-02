@@ -14,6 +14,8 @@ const credentials = reactive({
   password: "",
 });
 
+const loading = ref<boolean>(false);
+
 // Signup function
 const signup = async () => {
   // Check the userName length
@@ -27,6 +29,7 @@ const signup = async () => {
     return;
   }
   try {
+    loading.value = true;
     await $fetch("/api/signup", {
       method: "POST",
       body: credentials,
@@ -37,6 +40,8 @@ const signup = async () => {
     await navigateTo("/");
   } catch (error: any) {
     alert(error.response._data.message);
+  } finally {
+    loading.value = false;
   }
 };
 </script>
@@ -63,7 +68,7 @@ const signup = async () => {
         class="px-5 py-1 rounded bg-zinc-200 text-zinc-black hover:bg-zinc-200/70 dark:bg-zinc-900 dark:text-white dark:hover:bg-zinc-900/70 transition-colors ease-in-out duration-200 cursor-pointer"
         type="submit"
       >
-        Signup
+        {{ loading ? "Loading..." : "Signup" }}
       </button>
     </form>
     <p>

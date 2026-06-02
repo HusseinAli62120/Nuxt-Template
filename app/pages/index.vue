@@ -13,7 +13,7 @@ const colorMode = useColorMode();
 
 // The Auth data
 const { user, clear: clearSession } = useUserSession();
-console.log(user);
+console.log(user.value);
 
 const toggleTheme = () => {
   colorMode.preference = colorMode.preference === "light" ? "dark" : "light";
