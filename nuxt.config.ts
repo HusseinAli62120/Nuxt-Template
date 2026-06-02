@@ -24,9 +24,17 @@ export default defineNuxtConfig({
   vite: {
     plugins: [tailwindcss()],
     optimizeDeps: {
-      include: ["@vue/devtools-core", "@vue/devtools-kit"],
+      include: [
+        "@vue/devtools-core",
+        "@vue/devtools-kit",
+        "@vueuse/core",
+        "class-variance-authority",
+        "clsx",
+        "reka-ui",
+        "tailwind-merge",
+      ],
     },
   },
 
-  modules: ["nuxt-auth-utils", "@nuxtjs/color-mode"],
+  modules: ["nuxt-auth-utils", "@nuxtjs/color-mode", "shadcn-nuxt"],
 });

@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { Role } from "#shared/enums/Role";
+import { Button } from "~/components/ui/button";
 
 definePageMeta({
   layout: "screen",
@@ -42,24 +43,16 @@ const logout = async () => {
         />
 
         <ClientOnly>
-          <button
-            @click="toggleTheme"
-            class="px-3 py-1 rounded bg-zinc-200 text-zinc-black hover:bg-zinc-200/70 dark:bg-zinc-900 dark:text-white dark:hover:bg-zinc-900/70 transition-colors ease-in-out duration-200 cursor-pointer"
-          >
-            {{ colorMode?.value }}
-          </button>
+          <Button @click="toggleTheme" variant="default">{{
+            colorMode?.value
+          }}</Button>
 
           <template #fallback>
             <button class="px-3 py-1 rounded">loading...</button>
           </template>
         </ClientOnly>
 
-        <button
-          @click="logout"
-          class="px-3 py-1 rounded text-red-600 hover:bg-red-600 hover:text-white transition-all ease-in-out duration-500"
-        >
-          Logout
-        </button>
+        <Button variant="destructive" @click="logout">Logout</Button>
       </div>
     </div>
   </div>
