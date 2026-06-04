@@ -1,5 +1,8 @@
 import z from "zod";
 import { Role } from "#shared/enums/Role";
+import { users } from "../db/schema";
+import { eq } from "drizzle-orm";
+import { db } from "../utils/drizzleDriver";
 
 export default defineEventHandler(async (event) => {
   // Validate body schema
@@ -23,15 +26,42 @@ export default defineEventHandler(async (event) => {
     });
 
     // Check if the user already exists
+    const user = await db
+      .select()
+      .from(users)
+      .where(eq(users.userName, userName))
+      .limit(1);
 
-    // Create the user
+    if (user.length > 0) {
+      throw createError({
+        status: 409,
+        message: "User already exists",
+      });
+    }
+
+    // hash the password
+    const hashedPassword = await hashPassword(password);
+
+    // create user
+    await db.insert(users).values({
+      userName: userName,
+      password: hashedPassword,
+      role: Role.USER,
+    });
+
+    // get the created user
+    const createdUser = await db
+      .select({ id: users.id, userName: users.userName, role: users.role })
+      .from(users)
+      .where(eq(users.userName, userName))
+      .limit(1);
 
     // Set the user info into the session
     await setUserSession(event, {
       user: {
-        id: (Math.random() * 100).toString(),
-        userName: userName,
-        role: Role.USER,
+        id: createdUser[0]?.id!,
+        userName: createdUser[0]?.userName!,
+        role: createdUser[0]?.role! as Role,
       },
     });
 
