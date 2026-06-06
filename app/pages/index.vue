@@ -14,7 +14,7 @@ const colorMode = useColorMode();
 
 // The Auth data
 const { user, clear: clearSession } = useUserSession();
-console.log(user.value);
+// console.log(user.value);
 
 const toggleTheme = () => {
   colorMode.preference = colorMode.preference === "light" ? "dark" : "light";
@@ -30,8 +30,23 @@ const logout = async () => {
   <div class="flex-1 w-full flex flex-col items-center justify-center gap-3">
     <div class="w-full flex flex-col items-center justify-center gap-3">
       <!-- Gretting message -->
+      <!-- Gretting message -->
       <p>
-        Hello <b>{{ user?.userName }}</b> Welcome to this template
+        Hello <b>{{ user?.userName }}</b>
+      </p>
+      <p>
+        Welcome to This template. It uses
+        <span class="text-emerald-600 underline">
+          <CustomLink :text="'Nuxt'" :url="'https://nuxt.com/'" />
+        </span>
+        with
+        <span class="text-purple-600 underline">
+          <CustomLink :text="'Prisma ORM'" :url="'https://prisma.io'" />
+        </span>
+        and
+        <span class="text-emerald-600 underline">
+          <CustomLink :text="'Shadcn'" :url="'https://www.shadcn-vue.com/'" />
+        </span>
       </p>
       <!-- Buttons -->
       <div class="flex flex-row items-center justify-center gap-3">

@@ -7,6 +7,7 @@ defineProps<{
 
 <template>
   <NuxtLink
+    target="_blank"
     :to="url"
     @click="
       () => {
