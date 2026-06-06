@@ -8,7 +8,16 @@
     "test": "nuxt dev --dotenv .env.test",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
-    "postinstall": "nuxt prepare"
+    "postinstall": "nuxt prepare",
+    "db:generate:dev": "dotenv -e .env.development -- drizzle-kit generate",
+    "db:push:dev": "dotenv -e .env.development -- drizzle-kit push",
+    "db:studio:dev": "dotenv -e .env.development -- drizzle-kit studio",
+    "db:generate:test": "dotenv -e .env.test -- drizzle-kit generate",
+    "db:push:test": "dotenv -e .env.test -- drizzle-kit push",
+    "db:studio:test": "dotenv -e .env.test -- drizzle-kit studio",
+    "db:generate:production": "dotenv -e .env -- drizzle-kit generate",
+    "db:push:production": "dotenv -e .env -- drizzle-kit push",
+    "db:studio:production": "dotenv -e .env -- drizzle-kit studio"
   },
   "dependencies": {
     "@nuxt/ui": "^4.8.2",
