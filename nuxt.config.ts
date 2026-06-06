@@ -5,6 +5,10 @@ export default defineNuxtConfig({
   compatibilityDate: "2025-07-15",
   devtools: { enabled: true },
 
+  colorMode: {
+    disableTransition: false,
+  },
+
   runtimeConfig: {
     // Environment variables that are accessible on the client-side
     public: {
@@ -28,5 +32,5 @@ export default defineNuxtConfig({
     },
   },
 
-  modules: ["nuxt-auth-utils", "@nuxtjs/color-mode"],
+  modules: ["nuxt-auth-utils", "@nuxtjs/color-mode", "@nuxt/ui"],
 });

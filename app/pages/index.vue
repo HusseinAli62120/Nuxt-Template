@@ -13,7 +13,7 @@ const colorMode = useColorMode();
 
 // The Auth data
 const { user, clear: clearSession } = useUserSession();
-console.log(user);
+// console.log(user);
 
 const toggleTheme = () => {
   colorMode.preference = colorMode.preference === "light" ? "dark" : "light";
@@ -30,8 +30,26 @@ const logout = async () => {
     <div class="w-full flex flex-col items-center justify-center gap-3">
       <!-- Gretting message -->
       <p>
-        Hello <b>{{ user?.userName }}</b> Welcome to this template
+        Hello <b>{{ user?.userName }}</b>
       </p>
+      <p>
+        Welcome to This template. It uses
+        <span class="text-emerald-600 underline">
+          <CustomLink :text="'Nuxt'" :url="'https://nuxt.com/'" />
+        </span>
+        with
+        <span class="text-yellow-600 underline">
+          <CustomLink
+            :text="'Drizzle ORM'"
+            :url="'https://orm.drizzle.team/'"
+          />
+        </span>
+        and
+        <span class="text-emerald-600 underline">
+          <CustomLink :text="'Nuxt UI'" :url="'https://ui.nuxt.com/'" />
+        </span>
+      </p>
+
       <!-- Buttons -->
       <div class="flex flex-row items-center justify-center gap-3">
         <CustomLink
@@ -42,24 +60,23 @@ const logout = async () => {
         />
 
         <ClientOnly>
-          <button
-            @click="toggleTheme"
-            class="px-3 py-1 rounded bg-zinc-200 text-zinc-black hover:bg-zinc-200/70 dark:bg-zinc-900 dark:text-white dark:hover:bg-zinc-900/70 transition-colors ease-in-out duration-200 cursor-pointer"
-          >
+          <UButton color="neutral" variant="solid" @click="toggleTheme">
             {{ colorMode?.value }}
-          </button>
+          </UButton>
 
           <template #fallback>
             <button class="px-3 py-1 rounded">loading...</button>
           </template>
         </ClientOnly>
 
-        <button
+        <UButton
+          class="text-white"
+          color="error"
+          variant="solid"
           @click="logout"
-          class="px-3 py-1 rounded text-red-600 hover:bg-red-600 hover:text-white transition-all ease-in-out duration-500"
         >
           Logout
-        </button>
+        </UButton>
       </div>
     </div>
   </div>
