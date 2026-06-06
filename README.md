@@ -1,6 +1,5 @@
 # Nuxt Template
 
----
 
 This is a starter template for Nuxt to streamline project setup, and get started building your project quickly.
 
